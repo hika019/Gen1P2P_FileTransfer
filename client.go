@@ -24,7 +24,8 @@ func init() {
 	}
 
 	hashTable = map[[32]byte]string{}
-	uploadFileHashTable()
+
+	lib.UpFHT(conf, createFileHashTable(shareDir))
 
 }
 
@@ -54,28 +55,22 @@ func loadLocalFiles(dir string) []string {
 	return paths
 }
 
-func createFileHashTable(dir string) {
+func createFileHashTable(dir string) []byte {
 
 	paths := loadLocalFiles(dir)
-
 	for _, path := range paths {
 		h := sha256.Sum256([]byte(path))
 		hashTable[h] = path
 	}
-}
 
-func uploadFileHashTable() {
-	createFileHashTable(shareDir)
 	var hashs []byte
 	for hash := range hashTable {
 		for i := 0; i < 32; i++ {
 			hashs = append(hashs, hash[i])
 		}
-
 	}
-	fmt.Println(hashs)
-	fmt.Println(len(hashs))
 
+	return hashs
 }
 
 func uploadFile() {
