@@ -15,7 +15,7 @@ func CheckErrExit(err error) {
 func CheckErr(err error) bool {
 	if err != nil {
 		fmt.Println("Fail: ", err.Error())
-		return false
+		return true
 	}
-	return true
+	return false
 }
